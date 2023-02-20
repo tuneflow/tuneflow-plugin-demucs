@@ -5,7 +5,7 @@ class MusicSourceSeparatePlugin(TuneflowPlugin):
 
     @staticmethod
     def provider_id():
-        return "qinfrank"
+        return "qjq"
 
     @staticmethod
     def plugin_id():
@@ -14,8 +14,8 @@ class MusicSourceSeparatePlugin(TuneflowPlugin):
     @staticmethod
     def provider_display_name():
         return {
-            "zh": "qinfrank 行板",
-            "en": "qinfrank"
+            "zh": "QJQ",
+            "en": "QJQ"
         }
 
     @staticmethod
@@ -28,7 +28,7 @@ class MusicSourceSeparatePlugin(TuneflowPlugin):
     @staticmethod
     def plugin_description():
         return {
-            "zh": "演示如何创建新轨道",
+            "zh": "从音乐中分离鼓、贝斯和人声",
             "en": "Separating drums, bass, and vocals from the music.",
         }
 
