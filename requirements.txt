@@ -1,2 +1,2 @@
-tuneflow-py
-tuneflow-devkit-py
+tuneflow-py == 0.1.0
+tuneflow-devkit-py == 0.1.0
