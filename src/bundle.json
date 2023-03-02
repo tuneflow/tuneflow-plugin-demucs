@@ -1,0 +1,28 @@
+{
+    "plugins": [
+      {
+        "providerId": "qjq",
+        "providerDisplayName": {
+            "zh": "QJQ",
+            "en": "QJQ"
+        },
+        "pluginId": "separate-track-plugin",
+        "pluginDisplayName": {
+            "zh": "音轨分离",
+            "en": "Music Source Separation"
+        },
+        "pluginDescription": {
+            "zh": "从音乐中分离鼓、贝斯和人声",
+            "en": "Separating drums, bass, and vocals from the music."
+        },
+        "version": "1.0.0",
+        "supportedPlatforms": ["desktop"],
+        "isInDevelopment": true,
+        "minRequiredDesktopVersion": "1.8.9",
+        "options": {
+          "allowReset": false,
+          "allowManualApplyAdjust": true
+        }
+      }
+    ]
+}

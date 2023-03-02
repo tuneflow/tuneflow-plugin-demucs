@@ -1,2 +1,3 @@
-tuneflow-py == 0.1.0
-tuneflow-devkit-py == 0.1.0
+tuneflow-py == 0.3.2
+tuneflow-devkit-py == 0.3.2
+demucs
