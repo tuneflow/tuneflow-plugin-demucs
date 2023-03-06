@@ -1,18 +1,20 @@
 from demucs.pretrained import get_model
 from demucs.separate import load_track
-from demucs.apply import apply_model, BagOfModels
-from demucs.audio import save_audio, AudioFile
-import torch as th
-import subprocess
-import sys
+from demucs.apply import apply_model
 from pathlib import Path
+from io import BytesIO
+import tempfile
+import torch as th
+import torchaudio as ta
+import os
 
 
 class SourceSeparator:
-    def __init__(self, audio_file_path, output_dir_path, model_name="htdemucs"):
-        self.audio_file_path = audio_file_path
+    def __init__(self, audio_bytes, output_dir_path=None, model_name="htdemucs"):
+        self.audio_bytes = audio_bytes
         self.output_dir_path = output_dir_path
         self.model_name = model_name
+        self.ext = "wav"
 
     def run(self):
         model_dir_path = Path(__file__).parent.joinpath("models")
@@ -20,40 +22,34 @@ class SourceSeparator:
         model.cpu()
         model.eval()
 
-        print(
-            f"Start separating music source for the audio path: {self.audio_file_path}")
+        tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
+        tmp_file.write(self.audio_bytes)
+        tmp_file.close()
 
-        wav = load_track(self.audio_file_path,
+        wav = load_track(tmp_file.name,
                          model.audio_channels, model.samplerate)
+
+        os.unlink(tmp_file.name)
 
         ref = wav.mean(0)
         wav = (wav - ref.mean()) / ref.std()
-        sources = apply_model(model, wav[None], device="cpu", shifts=1,
-                              split=True, overlap=0.25, progress=True,
-                              num_workers=1)[0]
-        sources = sources * ref.std() + ref.mean()
-        ext = "wav"
+        generated_tracks = apply_model(model, wav[None], device="cpu", shifts=1,
+                                       split=True, overlap=0.25, progress=True,
+                                       num_workers=os.cpu_count())[0]
+        generated_tracks = generated_tracks * ref.std() + ref.mean()
 
-        kwargs = {
-            'samplerate': model.samplerate,
-            'bitrate': 320,
-            'clip': "rescale",
-            'as_float': False,
-            'bits_per_sample': 16,
-        }
-
-        out = Path(self.output_dir_path) / self.model_name
-        stem = str(Path(self.audio_file_path).stem)
-        filename = "{track}/{stem}.{ext}"
-        output_audio_file_paths = []
-        for source, name in zip(sources, model.sources):
-            # /Users/frank/Documents/Track_5.wav
-            output_audio_file_path = out / filename.format(track=stem.rsplit(".", 1)[0],
-                                                           stem=name, ext=ext)
-            print("Generating audio file: {output_audio_file_path}")
-            output_audio_file_path.parent.mkdir(parents=True, exist_ok=True)
-            save_audio(source, str(output_audio_file_path), **kwargs)
-            output_audio_file_paths.append(output_audio_file_path)
+        output_file_bytes_list = []
+        for generated_track, track_type in zip(generated_tracks, model.sources):
+            generated_file_bytes = SourceSeparator._wav2bytes(
+                generated_track, model.samplerate, format=self.ext)
+            output_file_bytes_list.append(generated_file_bytes)
 
         print("Completed separating music source.")
-        return output_audio_file_paths
+        return output_file_bytes_list
+
+    @staticmethod
+    def _wav2bytes(waveform: th.Tensor, samplerate, format):
+        file_bytes = BytesIO()
+        ta.save(file_bytes, waveform,
+                samplerate, format=format)
+        return file_bytes
