@@ -83,6 +83,7 @@ class MusicSourceSeparatePlugin(TuneflowPlugin):
     def _separate_music_sources(song: Song, audio_bytes, duration):
         source_separator = SourceSeparator(audio_bytes)
         output_file_bytes_list = source_separator.run()
+        print("Completed separating music source.")
         print("Rendering generated tracks...")
         for file_bytes in output_file_bytes_list:
             try:

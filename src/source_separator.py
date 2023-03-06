@@ -15,6 +15,9 @@ class SourceSeparator:
         self.output_dir_path = output_dir_path
         self.model_name = model_name
         self.ext = "wav"
+        self.device = "cpu"
+        self.num_workers = os.cpu_count()
+        self.model_inference_progress = False
 
     def run(self):
         model_dir_path = Path(__file__).parent.joinpath("models")
@@ -22,7 +25,7 @@ class SourceSeparator:
         model.cpu()
         model.eval()
 
-        tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
+        tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=self.ext)
         tmp_file.write(self.audio_bytes)
         tmp_file.close()
 
@@ -33,9 +36,8 @@ class SourceSeparator:
 
         ref = wav.mean(0)
         wav = (wav - ref.mean()) / ref.std()
-        generated_tracks = apply_model(model, wav[None], device="cpu", shifts=1,
-                                       split=True, overlap=0.25, progress=True,
-                                       num_workers=os.cpu_count())[0]
+        generated_tracks = apply_model(model, wav[None], device=self.device, split=True,
+                                       progress=self.model_inference_progress, num_workers=self.num_workers)[0]
         generated_tracks = generated_tracks * ref.std() + ref.mean()
 
         output_file_bytes_list = []
@@ -43,8 +45,6 @@ class SourceSeparator:
             generated_file_bytes = SourceSeparator._wav2bytes(
                 generated_track, model.samplerate, format=self.ext)
             output_file_bytes_list.append(generated_file_bytes)
-
-        print("Completed separating music source.")
         return output_file_bytes_list
 
     @staticmethod
