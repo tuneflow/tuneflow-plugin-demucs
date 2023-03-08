@@ -16,7 +16,7 @@ class SourceSeparator:
         self.model_name = model_name
         self.ext = "wav"
         self.device = "cpu"
-        self.num_workers = os.cpu_count()
+        self.num_workers = 4
         self.model_inference_progress = False
 
     def run(self):
