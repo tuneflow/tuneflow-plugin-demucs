@@ -6,7 +6,7 @@
             "zh": "QJQ",
             "en": "QJQ"
         },
-        "pluginId": "separate-track-plugin",
+        "pluginId": "demucs",
         "pluginDisplayName": {
             "zh": "音轨分离",
             "en": "Music Source Separation"

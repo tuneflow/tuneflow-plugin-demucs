@@ -1,7 +1,7 @@
 from tuneflow_py import TuneflowPlugin, Song, ParamDescriptor, WidgetType, TrackType, InjectSource
 from tuneflow_py.models.protos import song_pb2
 from typing import Any
-from source_separator import SourceSeparator
+from .source_separator import SourceSeparator
 import traceback
 
 
@@ -13,7 +13,7 @@ class MusicSourceSeparatePlugin(TuneflowPlugin):
 
     @staticmethod
     def plugin_id():
-        return "separate-track-plugin"
+        return "demucs"
 
     @staticmethod
     def params(song: Song) -> dict[str, ParamDescriptor]:
