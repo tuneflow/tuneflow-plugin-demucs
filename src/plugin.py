@@ -1,7 +1,8 @@
+from .source_separator import SourceSeparator
+
 from tuneflow_py import TuneflowPlugin, Song, ParamDescriptor, WidgetType, TrackType, InjectSource
 from tuneflow_py.models.protos import song_pb2
-from typing import Any
-from .source_separator import SourceSeparator
+from typing import Any, Dict
 import traceback
 
 
@@ -16,7 +17,7 @@ class MusicSourceSeparatePlugin(TuneflowPlugin):
         return "demucs"
 
     @staticmethod
-    def params(song: Song) -> dict[str, ParamDescriptor]:
+    def params(song: Song) -> Dict[str, ParamDescriptor]:
         return {
             "selectedClipInfos": {
                 "displayName": {
@@ -55,7 +56,7 @@ class MusicSourceSeparatePlugin(TuneflowPlugin):
         }
 
     @staticmethod
-    def run(song: Song, params: dict[str, Any]):
+    def run(song: Song, params: Dict[str, Any]):
         print("=============================")
         print(
             "Separating drums, bass, and vocals from the music.")
@@ -68,7 +69,7 @@ class MusicSourceSeparatePlugin(TuneflowPlugin):
             song, audio_bytes, audio_clip_data.duration)
 
     @staticmethod
-    def _get_selected_audio_clip_data(song: Song, params: dict[str, Any]) -> song_pb2.AudioClipData:
+    def _get_selected_audio_clip_data(song: Song, params: Dict[str, Any]) -> song_pb2.AudioClipData:
         selected_clip_infos = params["selectedClipInfos"]
         selected_clip_info = selected_clip_infos[0]
         track = song.get_track_by_id(selected_clip_info["trackId"])
