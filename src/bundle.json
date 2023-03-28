@@ -31,7 +31,12 @@
             }
           }
         ],
-        "categories": ["separate_source"]
+        "categories": ["separate_source"],
+        "icon": {
+          "0.5x": "https://s.tuneflow.com/images/plugins/icons/demucs/demucs@0.5x.png",
+          "1x": "https://s.tuneflow.com/images/plugins/icons/demucs/demucs@1x.png",
+          "2x": "https://s.tuneflow.com/images/plugins/icons/demucs/demucs@2x.png"
+        }
       }
     ]
 }
