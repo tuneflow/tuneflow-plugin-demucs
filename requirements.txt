@@ -1,4 +1,4 @@
-tuneflow-devkit-py>=0.4.5
+tuneflow-devkit-py>=0.5.0
 demucs==4.0.0
 soundfile==0.12.1
 fastapi==0.92.0
