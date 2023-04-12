@@ -8,12 +8,12 @@
         },
         "pluginId": "demucs",
         "pluginDisplayName": {
-            "zh": "音轨分离",
-            "en": "Music Source Separation"
+            "zh": "智能音频分轨",
+            "en": "Smart Audio Source Separator"
         },
         "pluginDescription": {
-            "zh": "从音乐中分离鼓、贝斯和人声",
-            "en": "Separating drums, bass, and vocals from the music."
+            "zh": "从音乐中分离人声、鼓、贝斯和其余音轨",
+            "en": "Separates vocal, drums, bass, and other tracks from your audio."
         },
         "version": "1.0.0",
         "supportedPlatforms": ["desktop"],
