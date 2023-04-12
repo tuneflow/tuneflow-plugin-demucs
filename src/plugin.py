@@ -1,4 +1,4 @@
-from .source_separator import SourceSeparator
+from src.source_separator import SourceSeparator
 
 from tuneflow_py import TuneflowPlugin, Song, Track, ParamDescriptor, WidgetType, TrackType, InjectSource, Clip
 from typing import Any, Dict
