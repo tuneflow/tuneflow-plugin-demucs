@@ -1,6 +1,6 @@
 from src.source_separator import SourceSeparator
 
-from tuneflow_py import TuneflowPlugin, Song, Track, ParamDescriptor, WidgetType, TrackType, InjectSource, Clip
+from tuneflow_py import TuneflowPlugin, Song, ParamDescriptor, WidgetType, TrackType, InjectSource, Clip
 from typing import Any, Dict
 import traceback
 from io import BytesIO
