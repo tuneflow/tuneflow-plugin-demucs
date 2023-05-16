@@ -29,3 +29,7 @@ def handle_get_job_result(job_id: str):
     if job_id not in store:
         return Response('', status_code=404)
     return Response(store[job_id], headers={"Content-Type": "application/octet-stream"})
+
+if __name__ == '__main__':
+    import uvicorn
+    uvicorn.run(app)
